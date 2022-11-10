@@ -1,6 +1,5 @@
-*.ltx*
-*.db?
-*.exe
-*.dll
-*.log
-/*/*
+*
+!*.ps1
+!*.psm1
+!*.md
+!.gitignore

@@ -29,9 +29,6 @@ class XrCompress {
         $this.Include = $include
         $this.Exclude = $exclude
         $this.CfgName = "$($this.Name[0]).ltx"
-        # if ($this.Gamedata -notmatch '\\$') {
-        #     $this.Gamedata += '\'
-        # }
     }
 
     [string]GetCfg() {
@@ -57,15 +54,14 @@ class XrCompress {
         ) -join "`n"
     }
 
-    hidden [string]GetXrCompressArgs() {
+    hidden [string]GetCompressArgs() {
         $flagFmt = if ($this.Flag) { ' ' + $this.Flag } else { '' }
         return '{0} {1} -ltx {2}' -f $this.Gamedata, $flagFmt, $this.CfgName
     }
 
-    hidden [void]Compress() {
-        $xrCompressExpr = ".\xrCompress.exe $($this.GetXrCompressArgs())"
-        "Running $xrCompressExpr" | Out-Log
-        & { & Invoke-Expression -Command $xrCompressExpr } | Out-Log
+    hidden [string]GetCompressCommand() {
+        return  "..\xrCompress.exe $($this.GetCompressArgs())"
+
     }
 
     hidden [void]MoveDbs() {
@@ -76,38 +72,33 @@ class XrCompress {
         Get-ChildItem -Path "$($this.Gamedata)\..\*gamedata.db*" | Move-Item -Destination { ".\db\$($this.Name[1])\$($this.Name[0])$($_.Extension)" }
     }
 
-    # [string]ToString() {
-    #     $line = '=' * 9
-    #     $cfgHeading = "$line $($this.CfgName) $line"
-    #     $str = @(@(
-    #             '',
-    #             $cfgHeading ,
-    #             $this.Cfg,
-    #        ('=' * $cfgHeading.Length),
-    #             '',
-    #             "> .\xrCompress.exe $($this.GetXrCrmprsg"() {() {
-    #             ) -joint"`n")
-    #         y) {y) {
-    #         return  str
-    # }
-
-    [void]WriteCfg() {
-        # $absPath = Resolve-Path $this.CfgPath
-        # Write-Host "Writing $(Get-Ansi -Str $filename -Style Green) to $absPath"
-        Set-Content -Path ".\$($this.CfgName)" -Value $this.getCfg()
-    }
-
-
     [void]Run() {
+        $cfgStr = $this.GetCfg()
+        $compressCmd = $this.GetCompressCommand()
+
         if ($this.WhatIf) {
-            # $this.ToString() | Out-Log
+            $line = '=' * 9
+            $cfgHeader = "$line $($this.CfgName) $line`n"
+            $cfgFooter = '=' * $cfgHeader.Length
+
+            "{0}`n{1}`n{2}`n" -f $cfgHeader, $cfgStr, $cfgFooter | Out-Log
+            "Running $compressCmd`n" | Out-Log
             return
         }
-        $this.WriteCfg()
+
+        New-Item .ltx -ItemType Directory -ea 0
+        Push-Location .ltx
+        Set-Content -Path ".\$($this.CfgName)" -Value $cfgStr
+
         if ($this.CfgOnly) {
             return
         }
-        $this.Compress()
+
+        "Running $compressCmd" | Out-Log
+        & { & Invoke-Expression -Command $compressCmd } | Out-Log
+
+        Pop-Location
+
         $this.MoveDbs()
     }
 }
