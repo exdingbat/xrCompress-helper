@@ -1,55 +1,45 @@
 # Notes
 
-At least wrt to `meshes`, default compression doesn't seem to save that much more over `-fast` compression
-4.74 GB vs 4.31 GB
+## Anomaly DB Pack Info
 
-same with Textures
+As far as I can tell, the diagram below is how STALKER Anomaly is packed. Subdirectories seem to be split into separate DB files when they exceed 500 MB or are unique in some respect (such as `sounds_ambient.db0`, which is ~138 MB).
 
-## Recreate base anomaly splits
-
-└ ┌ ├ ─ ┬ │
-
-where are particles?
-VERSIONS?
-
-gamedata
-├──files.db
-│  ├─ gamdedata\particles
-│  └─ gamdedata\*.*
-├──shaders.db
-│  └─ gamedata\shaders\*
-├──levels
-│  └─ level_*.db
-├──configs
-│  ├─ all of these are their own gamedata\* dir, not nested in gamedata\configs
-│  ├─ ai.db
-│  ├─ configs.db
-│  ├─ scripts.db
-│  └─ spawns.db
-├──meshes
-│  ├─ anims is gamedata\anims, not nested in gamedata\meshes
-│  ├─ anims.db
-│  ├─ meshes.db
-│  ├─ meshes_actors.db
-│  ├─ meshes_dynamics.db
-│  └─ meshes_weapons.db
-├──meshes
-│  ├─ anims.db
-│  ├─ meshes.db
-│  ├─ meshes_actors.db
-│  ├─ meshes_dynamics.db
-│  └─ meshes_weapons.db
-├──textures
-│  ├─ textures.db
-│  ├─ textures_actors.db
-│  ├─ textures_concrete.db
-│  ├─ textures_detail.db
-│  ├─ textures_metal.db
-│  ├─ textures_sky.db
-│  ├─ textures_stone.db
-│  └─ textures_weapons.db
-├──sounds
-│  ├─ sounds.db
-│  ├─ sounds_ambient.db
-│  ├─ sounds_music.db
-│  └─ sounds_voices.db
+```
+db
+├─ files.db ┬──────────────-> gamdedata\particles
+│           └──────────────-> gamdedata\*.*
+│
+├─ shaders.db ─────────────-> gamedata\shaders\
+│
+├─ levels
+│  └─ level_*.db ──────────-> gamedata\levels\*
+│
+├─ configs
+│  ├─ ai.db ───────────────-> gamedata\ai
+│  ├─ configs.db ──────────-> gamedata\configs
+│  ├─ scripts.db ──────────-> gamedata\scripts
+│  └─ spawns.db ───────────-> gamedata\spawns
+│
+├─ meshes
+│  ├─ anims.db ────────────-> gamedata\anims
+│  ├─ meshes.db  ──────────-> gamedata\meshes\*
+│  ├─ meshes_actors.db ────-> gamedata\meshes\actors
+│  ├─ meshes_dynamics.db ──-> gamedata\meshes\dynamics
+│  └─ meshes_weapons.db ───-> gamedata\meshes\anomaly_weapons
+│
+├─ textures
+│  ├─ textures.db ─────────-> gamedata\textures\*
+│  ├─ textures_actors.db ──-> gamedata\textures\act
+│  ├─ textures_concrete.db -> gamedata\textures\crete
+│  ├─ textures_detail.db ──-> gamedata\textures\detail
+│  ├─ textures_metal.db ───-> gamedata\textures\mtl
+│  ├─ textures_sky.db ─────-> gamedata\textures\sky
+│  ├─ textures_stone.db ───-> gamedata\textures\ston
+│  └─ textures_weapons.db ─-> gamedata\textures\wpn
+│
+└─ sounds
+   ├─ sounds.db ───────────-> gamedata\sounds\*
+   ├─ sounds_ambient.db ───-> gamedata\sounds\ambient
+   ├─ sounds_music.db ─────-> gamedata\sounds\music
+   └─ sounds_voices.db ────-> gamedata\sounds\characters_voice
+```

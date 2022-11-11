@@ -8,27 +8,41 @@ filter Out-Log {
 
 class XrCompress {
     [string]$Gamedata = $null
-    [string[]]$Name = $null
+    [string]$Name = $null
+    [string]$Dir = $null
     [string]$Flag = $null
     [string[]]$Include = $null
     [string[]]$Exclude = $null
-    hidden [switch]$WhatIf = $global:WhatIf
-    hidden [switch]$CfgOnly = $global:CfgOnly
+
     hidden [string]$Cfg = $null
     hidden [string]$CfgName = $null
+    hidden [switch]$WhatIf = $global:WhatIf
+    hidden [switch]$CfgOnly = $global:CfgOnly
+
+    static [string]$CfgDir = '.ltx'
+    static [string]$XRCDir = '.xrc'
+    static [string]$DBDir = 'db'
     static [string]$Exts =
     '*.ncb,*.sln,*.vcproj,*.old,*.rc,*.scc,*.vssscc,*.bmp,*.exe,*.db,*.bak*,' +
     '*.bmp,*.smf,*.uvm,*.prj,*.tga,*.txt,*.rtf,*.doc,*.log,*.~*,*.rar,*.7z,' +
     '*.zip,*.sfk'
 
 
-    XrCompress([string]$gamedata, [string[]]$name, [string]$flag = '', [string[]]$include, [string[]]$exclude) {
+    XrCompress(
+        [string]$gamedata,
+        [string]$name,
+        [string]$dir,
+        [string]$flag,
+        [string[]]$include,
+        [string[]]$exclude = @()
+    ) {
         $this.Gamedata = $gamedata
         $this.Name = $name
+        $this.Dir = $dir
         $this.Flag = $flag
         $this.Include = $include
         $this.Exclude = $exclude
-        $this.CfgName = "$($this.Name[0]).ltx"
+        $this.CfgName = "$($this.Name).ltx"
     }
 
     [string]GetCfg() {
@@ -38,15 +52,14 @@ class XrCompress {
             'bytes = 2'
             ''
             '[include_folders]'
-            # ';<path>       = <recurse>'
-        ) + $this.Include + @(
+            $this.Include -join "`n"
             ''
             '[exclude_folders]'
-        ) + $this.Exclude + @(
+            $this.Exclude -join "`n"
             ''
             '[header]'
             'auto_load     = true'
-            'level_name    = single'
+            'level_name    = anomaly'
             'level_ver     = 1.0'
             'entry_point   = $fs_root$\gamedata'
             'creator       = "gsc game world"'
@@ -60,16 +73,20 @@ class XrCompress {
     }
 
     hidden [string]GetCompressCommand() {
-        return  "..\xrCompress.exe $($this.GetCompressArgs())"
+        return  "..\$([XrCompress]::XRCDir)\xrCompress.exe $($this.GetCompressArgs())"
 
     }
 
-    hidden [void]MoveDbs() {
+    hidden [void]MoveDbFiles() {
         New-Item .\db -ItemType Directory -ea 0
-        if ($this.Name[1]) {
-            New-Item ('.\db\{0}' -f $this.Name[1]) -ItemType Directory -ea 0
+        if ($this.Dir) {
+            New-Item ".\$([XrCompress]::DBDir)\$($this.Dir)" -ItemType Directory -ea 0
         }
-        Get-ChildItem -Path "$($this.Gamedata)\..\*gamedata.db*" | Move-Item -Destination { ".\db\$($this.Name[1])\$($this.Name[0])$($_.Extension)" }
+        $target = "$($this.Gamedata)\..\gamedata.db*"
+        $dest = ".\$([XrCompress]::DBDir)\$($this.Dir)\$($this.Name)"
+        Get-ChildItem -Path $target | Move-Item -Destination {
+            $dest + $($_.Extension)
+        }
     }
 
     [void]Run() {
@@ -86,19 +103,60 @@ class XrCompress {
             return
         }
 
-        New-Item .ltx -ItemType Directory -ea 0
-        Push-Location .ltx
-        Set-Content -Path ".\$($this.CfgName)" -Value $cfgStr
+        Write-Host $this.Gamedata
+        Write-Host $this.Name
+        Write-Host $this.Dir
+        Write-Host $this.Flag
+        Write-Host $this.Include
+        Write-Host $this.Exclude
+        Write-Host $this.CfgName
+        New-Item $([XrCompress]::CfgDir) -ItemType Directory -ea 0
+        Push-Location $([XrCompress]::CfgDir)
+        Set-Content -Path $(".\$($this.CfgName)") -Value $cfgStr
 
         if ($this.CfgOnly) {
-            return
+            Pop-Location
+        } else {
+            "Running $compressCmd" | Out-Log
+            & { & Invoke-Expression -Command $compressCmd } | Out-Log
+            Pop-Location
+            $this.MoveDbFiles()
         }
-
-        "Running $compressCmd" | Out-Log
-        & { & Invoke-Expression -Command $compressCmd } | Out-Log
-
-        Pop-Location
-
-        $this.MoveDbs()
     }
+}
+
+class XrCompressFactory {
+    [string]$Gamedata = $null
+    XrCompressFactory($gamedata) {
+        $this.Gamedata = $gamedata
+    }
+
+    [XrCompress]GetXRC(
+        [string]$name,
+        [string]$dir,
+        [string[]]$include
+
+    ) {
+        return [XrCompress]::new($this.Gamedata, $name, $dir, $null, $include, @())
+    }
+    [XrCompress]GetXRC(
+        [string]$name,
+        [string]$dir,
+        [string]$flag,
+        [string[]]$include
+
+    ) {
+        return [XrCompress]::new($this.Gamedata, $name, $dir, $flag, $include, @())
+    }
+
+    [XrCompress]GetXRC(
+        [string]$name,
+        [string]$dir,
+        [string]$flag,
+        [string[]]$include,
+        [string[]]$exclude
+    ) {
+        return [XrCompress]::new($this.Gamedata, $name, $dir, $flag, $include, $exclude)
+    }
+
 }
