@@ -1,0 +1,370 @@
+{
+  "root": [
+    {
+      "name": "files",
+      "dir": "",
+      "include": [".\\ = false", "particles = true"]
+    },
+    { "name": "shaders", "dir": "", "include": ["shaders = true"] }
+  ],
+  "configs": [
+    { "name": "configs", "dir": "configs", "include": ["configs = true"] },
+    { "name": "ai", "dir": "configs", "include": ["ai = true"] },
+    { "name": "spawns", "dir": "configs", "include": ["spawns = true"] },
+    { "name": "scripts", "dir": "configs", "include": ["scripts = true"] }
+  ],
+  "sounds": [
+    {
+      "name": "sounds_voices",
+      "dir": "sounds",
+      "arg": "-store",
+      "include": ["sounds\\characters_voice = true"]
+    },
+    {
+      "name": "sounds_music",
+      "dir": "sounds",
+      "arg": "-store",
+      "include": ["sounds\\music = true"]
+    },
+    {
+      "name": "sounds_ambient",
+      "dir": "sounds",
+      "arg": "-store",
+      "include": ["sounds\\ambient = true"]
+    },
+    {
+      "name": "sounds_radio_addon",
+      "dir": "sounds",
+      "arg": "-store",
+      "include": ["sounds\\anomaly_radio_addon = true"]
+    },
+    {
+      "name": "sounds",
+      "dir": "sounds",
+      "arg": "-store",
+      "include": [
+        "sounds = true",
+        "sounds\\characters_voice = true",
+        "sounds\\music = true",
+        "sounds\\ambient = true",
+        "sounds\\anomaly_radio_addon = true"
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "anims",
+      "dir": "meshes",
+      "arg": "-fast",
+      "include": ["anims = true"]
+    },
+    {
+      "name": "meshes_dynamics",
+      "dir": "meshes",
+      "arg": "-fast",
+      "include": ["meshes\\dynamics = true"]
+    },
+    {
+      "name": "meshes_weapons",
+      "dir": "meshes",
+      "arg": "-fast",
+      "include": ["meshes\\anomaly_weapons = true"]
+    },
+    {
+      "name": "meshes_actors",
+      "dir": "meshes",
+      "arg": "-fast",
+      "include": ["meshes\\actors = true"]
+    },
+    {
+      "name": "meshes",
+      "dir": "meshes",
+      "arg": "-fast",
+      "include": ["meshes = true"],
+      "exclude": [
+        "meshes\\dynamics = true",
+        "meshes\\anomaly_weapons = true",
+        "meshes\\actors = true"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "textures_weapons",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\wpn = true"]
+    },
+    {
+      "name": "textures_actors",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\act = true"]
+    },
+    {
+      "name": "textures_ui",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\ui = true"]
+    },
+    {
+      "name": "textures_metal",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\mtl = true"]
+    },
+    {
+      "name": "textures_detail",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\detail = true"]
+    },
+    {
+      "name": "textures_concrete",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\crete = true"]
+    },
+    {
+      "name": "textures_sky",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\sky = true"]
+    },
+    {
+      "name": "textures_lfo",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\lfo = true"]
+    },
+    {
+      "name": "textures_stone",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures\\ston = true"]
+    },
+    {
+      "name": "textures",
+      "dir": "textures",
+      "arg": "-fast",
+      "include": ["textures = true"],
+      "exclude": [
+        "textures\\wpn = true",
+        "textures\\act = true",
+        "textures\\ui = true",
+        "textures\\mtl = true",
+        "textures\\detail = true",
+        "textures\\crete = true",
+        "textures\\sky = true",
+        "textures\\lfo = true",
+        "textures\\ston = true"
+      ]
+    }
+  ],
+  "levels": [
+    {
+      "name": "fake_start",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\fake_start = true"]
+    },
+    {
+      "name": "jupiter",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\jupiter = true"]
+    },
+    {
+      "name": "jupiter_underground",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\jupiter_underground = true"]
+    },
+    {
+      "name": "k00_marsh",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\k00_marsh = true"]
+    },
+    {
+      "name": "k01_darkscape",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\k01_darkscape = true"]
+    },
+    {
+      "name": "k02_trucks_cemetery",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\k02_trucks_cemetery = true"]
+    },
+    {
+      "name": "l01_escape",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l01_escape = true"]
+    },
+    {
+      "name": "l02_garbage",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l02_garbage = true"]
+    },
+    {
+      "name": "l03u_agr_underground",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l03u_agr_underground = true"]
+    },
+    {
+      "name": "l03_agroprom",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l03_agroprom = true"]
+    },
+    {
+      "name": "l04u_labx18",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l04u_labx18 = true"]
+    },
+    {
+      "name": "l04_darkvalley",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l04_darkvalley = true"]
+    },
+    {
+      "name": "l05_bar",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l05_bar = true"]
+    },
+    {
+      "name": "l06_rostok",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l06_rostok = true"]
+    },
+    {
+      "name": "l07_military",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l07_military = true"]
+    },
+    {
+      "name": "l08u_brainlab",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l08u_brainlab = true"]
+    },
+    {
+      "name": "l08_yantar",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l08_yantar = true"]
+    },
+    {
+      "name": "l09_deadcity",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l09_deadcity = true"]
+    },
+    {
+      "name": "l10u_bunker",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l10u_bunker = true"]
+    },
+    {
+      "name": "l10_limansk",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l10_limansk = true"]
+    },
+    {
+      "name": "l10_radar",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l10_radar = true"]
+    },
+    {
+      "name": "l10_red_forest",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l10_red_forest = true"]
+    },
+    {
+      "name": "l11_hospital",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l11_hospital = true"]
+    },
+    {
+      "name": "l11_pripyat",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l11_pripyat = true"]
+    },
+    {
+      "name": "l12u_control_monolith",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l12u_control_monolith = true"]
+    },
+    {
+      "name": "l12u_sarcofag",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l12u_sarcofag = true"]
+    },
+    {
+      "name": "l12_stancia",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l12_stancia = true"]
+    },
+    {
+      "name": "l12_stancia_2",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l12_stancia_2 = true"]
+    },
+    {
+      "name": "l13u_warlab",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l13u_warlab = true"]
+    },
+    {
+      "name": "l13_generators",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\l13_generators = true"]
+    },
+    {
+      "name": "labx8",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\labx8 = true"]
+    },
+    {
+      "name": "pripyat",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\pripyat = true"]
+    },
+    {
+      "name": "y04_pole",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\y04_pole = true"]
+    },
+    {
+      "name": "zaton",
+      "dir": "levels",
+      "arg": "-fast",
+      "include": ["levels\\zaton = true"]
+    }
+  ]
+}
